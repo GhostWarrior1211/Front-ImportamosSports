@@ -1,0 +1,186 @@
+<div class="admin-page">
+  <div class="container py-4">
+    <div class="admin-header card mb-4">
+      <div class="card-body d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+        <div>
+          <h1 class="admin-title mb-2">Panel Admin - Productos</h1>
+          <p class="admin-subtitle">Gestiona productos, imágenes, stock y estado.</p>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+          <a routerLink="/admin-pedidos" class="btn btn-outline-light">Pedidos</a>
+          <a routerLink="/admin-cupones" class="btn btn-primary">Cupones</a>
+          <button class="btn btn-danger" (click)="cerrarSesion()">Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card admin-card shadow-sm mb-4">
+      <div class="card-body">
+        <h4 class="admin-section-title mb-3">
+          {{ editando ? 'Editar producto' : 'Crear producto' }}
+        </h4>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Nombre</label>
+            <input class="form-control" [(ngModel)]="form.nombre" />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Marca</label>
+            <select class="form-select" [(ngModel)]="form.marcaId">
+              <option *ngFor="let marca of marcas" [value]="marca.id">
+                {{ marca.nombre }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-control" rows="3" [(ngModel)]="form.descripcion"></textarea>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Precio</label>
+            <input type="number" class="form-control" [(ngModel)]="form.precio" />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Stock</label>
+            <input type="number" class="form-control" [(ngModel)]="form.stock" />
+          </div>
+
+          <div class="col-md-4 d-flex align-items-end">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" [(ngModel)]="form.activo" id="activoProducto" />
+              <label class="form-check-label" for="activoProducto">Activo</label>
+            </div>
+          </div>
+
+          <div class="col-md-8">
+            <label class="form-label">Imagen URL</label>
+            <input class="form-control mb-2" [(ngModel)]="form.imagenUrl" placeholder="/img/productos/nike1.jpg" />
+
+            <input
+              type="file"
+              class="form-control"
+              accept=".jpg,.jpeg,.png,.webp"
+              (change)="onFileSelected($event)" />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Vista previa</label>
+            <div class="preview-box">
+              <img
+                [src]="getImageUrl(form.imagenUrl)"
+                (error)="imagenError($event)"
+                alt="preview">
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-4 flex-wrap">
+          <button class="btn btn-success" (click)="guardarProducto()">
+            {{ editando ? 'Actualizar producto' : 'Crear producto' }}
+          </button>
+
+          <button *ngIf="editando" class="btn btn-secondary" (click)="limpiarFormulario()">
+            Cancelar edición
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card admin-card shadow-sm">
+      <div class="card-body">
+        <h4 class="admin-section-title mb-3">Lista de productos</h4>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Marca</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Activo</th>
+                <th>Historial</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let item of productos">
+                <td>
+                  <img
+                    [src]="getImageUrl(item.imagenUrl)"
+                    (error)="imagenError($event)"
+                    alt="producto"
+                    class="producto-mini">
+                </td>
+
+                <td>{{ item.nombre }}</td>
+                <td>{{ item.marca?.nombre }}</td>
+                <td>S/ {{ item.precio | number:'1.2-2' }}</td>
+                <td>{{ item.stock }}</td>
+
+                <td>
+                  <span
+                    class="estado-badge"
+                    [ngClass]="item.activo ? 'bg-success text-white' : 'bg-danger text-white'">
+                    {{ item.activo ? 'Sí' : 'No' }}
+                  </span>
+                </td>
+
+                <td>
+                  <span
+                    class="historial-badge"
+                    [ngClass]="item.tienePedidos ? 'bg-warning text-dark' : 'bg-secondary text-white'">
+                    {{ item.tienePedidos ? 'Con pedidos' : 'Sin pedidos' }}
+                  </span>
+                </td>
+
+                <td>
+                  <div class="d-flex gap-2 flex-wrap">
+                    <button class="btn btn-warning btn-sm" (click)="editarProducto(item)">
+                      Editar
+                    </button>
+
+                    <button
+                      *ngIf="!item.tienePedidos"
+                      class="btn btn-danger btn-sm"
+                      (click)="eliminarProducto(item)">
+                      Eliminar
+                    </button>
+
+                    <button
+                      *ngIf="item.tienePedidos && item.activo"
+                      class="btn btn-secondary btn-sm"
+                      (click)="cambiarEstadoProducto(item, false)">
+                      Desactivar
+                    </button>
+
+                    <button
+                      *ngIf="item.tienePedidos && !item.activo"
+                      class="btn btn-success btn-sm"
+                      (click)="cambiarEstadoProducto(item, true)">
+                      Activar
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr *ngIf="productos.length === 0">
+                <td colspan="8" class="text-center text-muted py-4">
+                  No hay productos registrados
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

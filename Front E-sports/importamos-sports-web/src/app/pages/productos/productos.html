@@ -1,0 +1,82 @@
+<div class="catalogo-page">
+  <div class="container py-4">
+    <div class="catalogo-header card mb-4">
+      <div class="card-body d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+        <div>
+          <h1 class="catalogo-title mb-2">Catálogo de productos</h1>
+          <p class="catalogo-subtitle mb-0">
+            Explora nuestros productos disponibles y agrégalos a tu carrito.
+          </p>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+          <a routerLink="/mis-pedidos" class="btn btn-outline-primary">
+            Mis pedidos
+          </a>
+
+          <a routerLink="/carrito" class="btn btn-warning position-relative">
+            Carrito
+            <span class="badge rounded-pill bg-dark ms-1">
+              {{ totalItemsCarrito > 0 ? totalItemsCarrito : '' }}
+            </span>
+          </a>
+
+          <button class="btn btn-danger" (click)="cerrarSesion()">
+            Cerrar sesión
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6 col-xl-4" *ngFor="let item of productos">
+        <div class="producto-card card h-100">
+          <div class="producto-img-box">
+            <img
+              [src]="getImageUrl(item.imagenUrl)"
+              (error)="imagenError($event)"
+              alt="producto"
+              class="producto-img">
+          </div>
+
+          <div class="card-body d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+              <h5 class="producto-nombre mb-0">{{ item.nombre }}</h5>
+
+              <span
+                class="stock-badge"
+                [ngClass]="obtenerStockDisponible(item) > 0 ? 'stock-ok' : 'stock-out'">
+                {{ obtenerStockDisponible(item) > 0 ? 'Disponible' : 'Agotado' }}
+              </span>
+            </div>
+
+            <p class="producto-desc mb-3">
+              {{ item.descripcion }}
+            </p>
+
+            <div class="producto-meta mb-3">
+              <div><strong>Marca:</strong> {{ item.marca?.nombre }}</div>
+              <div><strong>Precio:</strong> S/ {{ item.precio | number:'1.2-2' }}</div>
+              <div><strong>Stock:</strong> {{ obtenerStockDisponible(item) }}</div>
+            </div>
+
+            <button
+              class="btn mt-auto"
+              [ngClass]="obtenerStockDisponible(item) > 0 ? 'btn-success' : 'btn-secondary'"
+              [disabled]="obtenerStockDisponible(item) <= 0"
+              (click)="agregarAlCarrito(item)">
+              {{ obtenerStockDisponible(item) > 0 ? 'Agregar al carrito' : 'Agotado' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="productos.length === 0" class="card mt-4">
+      <div class="card-body text-center py-5">
+        <h4 class="mb-2">No hay productos disponibles</h4>
+        <p class="text-muted mb-0">Cuando agregues productos activos desde el panel admin aparecerán aquí.</p>
+      </div>
+    </div>
+  </div>
+</div>

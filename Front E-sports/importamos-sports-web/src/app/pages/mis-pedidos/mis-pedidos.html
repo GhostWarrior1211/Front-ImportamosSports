@@ -1,0 +1,30 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Mis pedidos</h2>
+    <button class="btn btn-secondary" (click)="volver()">Volver</button>
+  </div>
+
+  <div *ngIf="pedidos.length === 0" class="alert alert-info">
+    Aún no tienes pedidos registrados.
+  </div>
+
+  <div class="card mb-4 shadow-sm" *ngFor="let pedido of pedidos">
+    <div class="card-body">
+      <h5>Pedido #{{ pedido.id }}</h5>
+      <p><strong>Fecha:</strong> {{ pedido.fecha | date:'short' }}</p>
+      <p><strong>Estado:</strong> {{ pedido.estadoPedido?.nombre }}</p>
+      <p><strong>Subtotal:</strong> S/ {{ pedido.subtotal | number:'1.2-2' }}</p>
+      <p><strong>Descuento:</strong> S/ {{ pedido.descuentoAplicado | number:'1.2-2' }}</p>
+      <p><strong>IGV:</strong> S/ {{ pedido.igv | number:'1.2-2' }}</p>
+      <p><strong>Total:</strong> S/ {{ pedido.total | number:'1.2-2' }}</p>
+
+      <hr />
+
+      <div *ngFor="let item of pedido.detalles">
+        <p class="mb-1">
+          {{ item.producto?.nombre }} - Cantidad: {{ item.cantidad }} - Subtotal: S/ {{ item.subTotal | number:'1.2-2' }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

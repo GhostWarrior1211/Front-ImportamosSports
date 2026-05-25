@@ -1,0 +1,168 @@
+<div class="admin-page">
+  <div class="container py-4">
+    <div class="admin-header card mb-4">
+      <div class="card-body d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+        <div>
+          <h1 class="admin-title mb-2">Panel Admin - Cupones</h1>
+          <p class="admin-subtitle">Crea, activa, desactiva y administra códigos de descuento.</p>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+          <a routerLink="/admin-productos" class="btn btn-outline-light">Productos</a>
+          <a routerLink="/admin-pedidos" class="btn btn-secondary">Pedidos</a>
+          <button class="btn btn-danger" (click)="cerrarSesion()">Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card admin-card shadow-sm mb-4">
+      <div class="card-body">
+        <h4 class="admin-section-title mb-3">
+          {{ editando ? 'Editar cupón' : 'Crear cupón' }}
+        </h4>
+
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">Código</label>
+            <input class="form-control" [(ngModel)]="form.codigo" placeholder="DESC50" />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Tipo de descuento</label>
+            <select class="form-select" [(ngModel)]="form.tipoDescuento">
+              <option value="MontoFijo">Monto fijo</option>
+              <option value="Porcentaje">Porcentaje</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Valor</label>
+            <input type="number" class="form-control" [(ngModel)]="form.valor" />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Compra mínima</label>
+            <input type="number" class="form-control" [(ngModel)]="form.compraMinima" />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Fecha inicio</label>
+            <input type="datetime-local" class="form-control" [(ngModel)]="form.fechaInicio" />
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Fecha fin</label>
+            <input type="datetime-local" class="form-control" [(ngModel)]="form.fechaFin" />
+          </div>
+
+          <div class="col-md-12">
+            <div class="form-check mt-2">
+              <input class="form-check-input" type="checkbox" [(ngModel)]="form.activo" id="activoCupon" />
+              <label class="form-check-label" for="activoCupon">Activo</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-4 flex-wrap">
+          <button class="btn btn-success" (click)="guardarCupon()">
+            {{ editando ? 'Actualizar cupón' : 'Crear cupón' }}
+          </button>
+
+          <button *ngIf="editando" class="btn btn-secondary" (click)="limpiarFormulario()">
+            Cancelar edición
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card admin-card shadow-sm">
+      <div class="card-body">
+        <h4 class="admin-section-title mb-3">Lista de cupones</h4>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Código</th>
+                <th>Tipo</th>
+                <th>Valor</th>
+                <th>Compra mínima</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let item of cupones">
+                <td class="codigo-box">{{ item.codigo }}</td>
+
+                <td>
+                  <span
+                    class="tipo-badge"
+                    [ngClass]="item.tipoDescuento === 'Porcentaje' ? 'bg-primary text-white' : 'bg-info text-dark'">
+                    {{ item.tipoDescuento }}
+                  </span>
+                </td>
+
+                <td>
+                  <span *ngIf="item.tipoDescuento === 'Porcentaje'">
+                    {{ item.valor }}%
+                  </span>
+                  <span *ngIf="item.tipoDescuento !== 'Porcentaje'">
+                    S/ {{ item.valor | number:'1.2-2' }}
+                  </span>
+                </td>
+
+                <td>S/ {{ item.compraMinima | number:'1.2-2' }}</td>
+                <td>{{ item.fechaInicio | date:'short' }}</td>
+                <td>{{ item.fechaFin | date:'short' }}</td>
+
+                <td>
+                  <span
+                    class="estado-badge"
+                    [ngClass]="item.activo ? 'bg-success text-white' : 'bg-danger text-white'">
+                    {{ item.activo ? 'Activo' : 'Inactivo' }}
+                  </span>
+                </td>
+
+                <td>
+                  <div class="d-flex gap-2 flex-wrap">
+                    <button class="btn btn-warning btn-sm" (click)="editarCupon(item)">
+                      Editar
+                    </button>
+
+                    <button
+                      *ngIf="item.activo"
+                      class="btn btn-secondary btn-sm"
+                      (click)="cambiarEstado(item, false)">
+                      Desactivar
+                    </button>
+
+                    <button
+                      *ngIf="!item.activo"
+                      class="btn btn-success btn-sm"
+                      (click)="cambiarEstado(item, true)">
+                      Activar
+                    </button>
+
+                    <button class="btn btn-danger btn-sm" (click)="eliminarCupon(item)">
+                      Eliminar
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr *ngIf="cupones.length === 0">
+                <td colspan="8" class="text-center text-muted py-4">
+                  No hay cupones registrados
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

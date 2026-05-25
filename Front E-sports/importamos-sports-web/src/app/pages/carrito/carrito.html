@@ -1,0 +1,164 @@
+<div class="carrito-page">
+  <div class="container py-4">
+    <div class="carrito-header card mb-4">
+      <div class="card-body d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+        <div>
+          <h1 class="carrito-title mb-2">Carrito de compras</h1>
+          <p class="carrito-subtitle mb-0">
+            Revisa tus productos antes de confirmar el pedido.
+          </p>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+          <button class="btn btn-outline-secondary" (click)="volver()">
+            Seguir comprando
+          </button>
+
+          <a routerLink="/mis-pedidos" class="btn btn-outline-primary">
+            Mis pedidos
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="carrito.length > 0; else carritoVacio" class="row g-4 align-items-start">
+      <div class="col-lg-8">
+        <div class="d-flex flex-column gap-4">
+          <div class="carrito-item card" *ngFor="let item of carrito">
+            <div class="card-body">
+              <div class="row align-items-center g-3">
+                <div class="col-md-2 text-center">
+                  <img
+                    [src]="getImageUrl(item.imagenUrl)"
+                    (error)="imagenError($event)"
+                    alt="producto"
+                    class="carrito-img">
+                </div>
+
+                <div class="col-md-4">
+                  <h4 class="item-title mb-2">{{ item.nombre }}</h4>
+                  <p class="mb-2 text-muted">{{ item.descripcion }}</p>
+                  <p class="mb-1"><strong>Precio base:</strong> S/ {{ item.precio | number:'1.2-2' }}</p>
+                  <p class="mb-0"><strong>Stock máximo:</strong> {{ item.stock }}</p>
+                </div>
+
+                <div class="col-md-3 text-center">
+                  <div class="cantidad-box">
+                    <button
+                      class="btn btn-outline-secondary btn-cantidad"
+                      (click)="disminuirCantidad(item)">
+                      -
+                    </button>
+
+                    <span class="cantidad-valor">{{ item.cantidad }}</span>
+
+                    <button
+                      class="btn btn-outline-secondary btn-cantidad"
+                      [disabled]="item.cantidad >= item.stock"
+                      (click)="incrementarCantidad(item)">
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <div class="col-md-2 text-md-end text-start">
+                  <div class="subtotal-label">Subtotal</div>
+                  <div class="subtotal-valor">
+                    S/ {{ (item.precio * item.cantidad) | number:'1.2-2' }}
+                  </div>
+                </div>
+
+                <div class="col-md-1 text-md-end text-start">
+                  <button
+                    class="btn btn-danger btn-sm btn-eliminar"
+                    (click)="eliminarDelCarrito(item)">
+                    ×
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card cupon-card">
+            <div class="card-body">
+              <h3 class="resumen-title mb-3">Código de cupón</h3>
+
+              <div class="cupon-input-group">
+                <input
+                  type="text"
+                  class="form-control cupon-input"
+                  [(ngModel)]="cupon"
+                  placeholder="Ingresa tu código de cupón">
+
+                <button class="btn btn-primary btn-usar-cupon" (click)="aplicarCupon()">
+                  Usar
+                </button>
+              </div>
+
+              <div *ngIf="mensajeCupon" class="cupon-msg mt-3 d-flex align-items-center justify-content-between gap-2">
+                <span>{{ mensajeCupon }}</span>
+
+                <button
+                  *ngIf="descuento > 0"
+                  type="button"
+                  class="btn btn-link btn-quitar-cupon p-0"
+                  (click)="quitarCupon()">
+                  ×
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card resumen-card sticky-top" style="top: 20px;">
+          <div class="card-body">
+            <h3 class="resumen-title mb-4">Resumen del carrito</h3>
+
+            <div class="resumen-linea">
+              <span>Total de productos</span>
+              <strong>{{ carrito.length }}</strong>
+            </div>
+
+            <div class="resumen-linea">
+              <span>Subtotal</span>
+              <strong>S/ {{ subtotal | number:'1.2-2' }}</strong>
+            </div>
+
+            <div class="resumen-linea descuento-linea">
+              <span>Cupones y descuentos</span>
+              <strong>- S/ {{ descuento | number:'1.2-2' }}</strong>
+            </div>
+
+            <div class="resumen-linea">
+              <span>IGV (18%)</span>
+              <strong>S/ {{ igv | number:'1.2-2' }}</strong>
+            </div>
+
+            <hr>
+
+            <div class="resumen-total">
+              <span>Total de la orden</span>
+              <strong>S/ {{ total | number:'1.2-2' }}</strong>
+            </div>
+
+            <button class="btn btn-success btn-pagar w-100 mt-4" (click)="confirmarPedido()">
+              Pagar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #carritoVacio>
+      <div class="card">
+        <div class="card-body text-center py-5">
+          <h3 class="mb-2">Tu carrito está vacío</h3>
+          <p class="text-muted mb-4">Agrega algunos productos para comenzar tu compra.</p>
+          <button class="btn btn-primary" (click)="volver()">Ir al catálogo</button>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

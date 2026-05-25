@@ -1,0 +1,83 @@
+.admin-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f5f7fb 0%, #eef2f7 100%);
+}
+
+.admin-header {
+  border-radius: 22px;
+  background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+  color: white;
+}
+
+.admin-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.admin-subtitle {
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0;
+}
+
+.pedido-card {
+  border-radius: 20px;
+}
+
+.pedido-numero {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.info-label {
+  font-weight: 700;
+  color: #111827;
+}
+
+.estado-box {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid #e5e7eb;
+}
+
+.detalle-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.table thead th {
+  white-space: nowrap;
+  font-weight: 700;
+}
+
+.estado-actual {
+  display: inline-block;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.resumen-total {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #111827;
+}
+.login-page {
+  min-height: 100vh;
+  position: relative;
+  background-image: url('/img/login/login-side.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+.login-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 18, 32, 0.58);
+  backdrop-filter: blur(2px);
+}

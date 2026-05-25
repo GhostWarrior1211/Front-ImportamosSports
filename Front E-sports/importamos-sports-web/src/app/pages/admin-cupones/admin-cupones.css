@@ -1,0 +1,56 @@
+.admin-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f5f7fb 0%, #eef2f7 100%);
+}
+
+.admin-header {
+  border-radius: 22px;
+  background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+  color: white;
+}
+
+.admin-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.admin-subtitle {
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0;
+}
+
+.admin-card {
+  border-radius: 20px;
+}
+
+.admin-section-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.estado-badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.tipo-badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.codigo-box {
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: 0.4px;
+}
+
+.table thead th {
+  white-space: nowrap;
+  font-weight: 700;
+}

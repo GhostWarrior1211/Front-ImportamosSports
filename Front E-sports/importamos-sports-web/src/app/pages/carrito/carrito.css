@@ -1,0 +1,180 @@
+.carrito-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f5f7fb 0%, #eef2f7 100%);
+}
+
+.carrito-header {
+  border-radius: 22px;
+  background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+  color: white;
+}
+
+.carrito-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.carrito-subtitle {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1rem;
+}
+
+.carrito-item,
+.resumen-card,
+.cupon-card {
+  border-radius: 20px;
+}
+
+.carrito-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+.item-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.cantidad-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 8px 12px;
+}
+
+.btn-cantidad {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  font-weight: 800;
+}
+
+.cantidad-valor {
+  min-width: 24px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.subtotal-label {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.subtotal-valor {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.btn-eliminar {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.resumen-title {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.resumen-linea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  color: #374151;
+}
+
+.descuento-linea strong {
+  color: #dc2626;
+}
+
+.resumen-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.btn-pagar {
+  min-height: 52px;
+  font-size: 1.1rem;
+}
+
+.cupon-input-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.cupon-input {
+  min-height: 50px;
+}
+
+.btn-usar-cupon {
+  min-width: 100px;
+  min-height: 50px;
+}
+
+.cupon-msg {
+  background: #ecfdf5;
+  color: #047857;
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-weight: 600;
+}
+
+.btn-quitar-cupon {
+  color: #6b7280;
+  font-size: 1.6rem;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.btn-quitar-cupon:hover {
+  color: #111827;
+}
+
+@media (max-width: 768px) {
+  .carrito-title {
+    font-size: 1.7rem;
+  }
+
+  .carrito-img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .item-title {
+    font-size: 1.2rem;
+  }
+
+  .cupon-input-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-usar-cupon {
+    width: 100%;
+  }
+
+  .resumen-total {
+    font-size: 1.2rem;
+  }
+}

@@ -1,0 +1,45 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f7fb;
+  color: #1f2937;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1280px;
+}
+
+.card {
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.btn {
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.form-control,
+.form-select,
+textarea {
+  border-radius: 12px !important;
+  min-height: 46px;
+}
+
+.table {
+  border-radius: 14px;
+  overflow: hidden;
+}
